@@ -148,13 +148,13 @@ export default function RoomPage() {
   const groupPanel = myName && roomState ? (
     <div className="px-4 pb-2 max-w-sm mx-auto w-full">
       {soloInRoom && (
-        <div className="mb-3 bg-zinc-800 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
-          <p className="text-zinc-300 text-sm">
+        <div className="mb-3 bg-slate-800/60 border border-slate-700 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+          <p className="text-slate-300 text-sm">
             Share <span className="font-mono font-bold text-white">{code}</span> to invite others
           </p>
           <button
             onClick={() => navigator.clipboard.writeText(window.location.href)}
-            className="text-xs text-blue-400 hover:text-blue-300 underline shrink-0"
+            className="text-xs text-violet-400 hover:text-violet-300 underline shrink-0"
           >
             Copy link
           </button>
@@ -171,24 +171,24 @@ export default function RoomPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800 sticky top-0 z-10">
+      <header className="flex items-center justify-between px-4 py-3 bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-10">
         <div className="flex items-center gap-2">
-          <span className="font-bold text-lg">SuitMatch</span>
+          <span className="font-bold text-slate-100">SuitMatch</span>
           {myName && (
             <button
               onClick={handleEditName}
-              className="text-xs text-zinc-500 hover:text-zinc-300 transition"
+              className="text-xs text-slate-500 hover:text-slate-300 transition"
               title="Change name"
             >
-              {myName} ✎
+              · {myName} ✎
             </button>
           )}
         </div>
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-sm bg-zinc-800 px-2 py-1 rounded tracking-widest">{code}</span>
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-lg tracking-widest text-slate-300">{code}</span>
           <div
             className={`w-2 h-2 rounded-full ${
-              wsStatus === "connected" ? "bg-emerald-500" : wsStatus === "connecting" ? "bg-yellow-500 animate-pulse" : "bg-red-500"
+              wsStatus === "connected" ? "bg-emerald-400" : wsStatus === "connecting" ? "bg-amber-400 animate-pulse" : "bg-rose-500"
             }`}
             title={wsStatus}
           />
@@ -203,8 +203,8 @@ export default function RoomPage() {
             {groupPanel}
             <div className="px-4 flex flex-col gap-4">
               <div>
-                <h2 className="text-xl font-bold mb-3">Get a good reading</h2>
-                <ul className="text-zinc-300 space-y-2 text-base">
+                <h2 className="text-xl font-bold mb-3 text-slate-100">Get a good reading</h2>
+                <ul className="text-slate-400 space-y-2 text-base">
                   <li>• Show your full jacket</li>
                   <li>• Use normal or neutral lighting</li>
                   <li>• Avoid colored LED lights</li>
@@ -221,7 +221,7 @@ export default function RoomPage() {
         {stage === "review" && capturedFile && (
           <div className="py-4">
             {analyzeError && (
-              <div className="mx-4 mb-4 bg-red-900/40 border border-red-700 rounded-xl p-3 text-red-300 text-sm">
+              <div className="mx-4 mb-4 bg-rose-900/30 border border-rose-700 rounded-xl p-3 text-rose-300 text-sm">
                 {analyzeError}
               </div>
             )}
@@ -236,8 +236,8 @@ export default function RoomPage() {
         {stage === "analyzing" && (
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col items-center justify-center py-16 gap-4">
-              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-zinc-400">Analyzing suit color…</p>
+              <div className="w-12 h-12 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-slate-400">Analyzing suit color…</p>
             </div>
             {groupPanel}
           </div>
@@ -247,7 +247,7 @@ export default function RoomPage() {
           <div className="flex flex-col gap-4 py-4 max-w-sm mx-auto">
             <div className="px-4 flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold">Your Suit</h2>
+                <h2 className="text-lg font-bold text-slate-100">Your Color</h2>
                 <LightingBadge quality={effectiveMeasurement.lightingQuality} />
               </div>
               <ResultCard
@@ -257,7 +257,7 @@ export default function RoomPage() {
               />
               <button
                 onClick={handleRetake}
-                className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-3 rounded-xl text-sm transition"
+                className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-3 rounded-xl text-sm transition"
               >
                 Retake Photo
               </button>

@@ -71,7 +71,7 @@ export default function PhotoReview({ file, onRetake, onAnalyze }: Props) {
         <p className="text-red-400 text-sm text-center">{error}</p>
         <button
           onClick={onRetake}
-          className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-4 px-8 rounded-xl text-base transition"
+          className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-4 px-8 rounded-xl text-base transition"
         >
           Retake
         </button>
@@ -111,14 +111,14 @@ export default function PhotoReview({ file, onRetake, onAnalyze }: Props) {
       <div className="flex gap-3">
         <button
           onClick={onRetake}
-          className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-4 rounded-xl text-base transition"
+          className="flex-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold py-4 rounded-xl text-base transition"
         >
           Retake
         </button>
         <button
           onClick={handleAnalyze}
           disabled={!region}
-          className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white font-bold py-4 rounded-xl text-base transition"
+          className="flex-1 bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 disabled:opacity-40 text-white font-bold py-4 rounded-xl text-base transition shadow-lg shadow-violet-900/30"
         >
           Analyze
         </button>
