@@ -9,6 +9,12 @@ export default function Home() {
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
 
+  // Detect Discord iframe and redirect to Activity entry point
+  if (typeof window !== "undefined" && window.self !== window.top) {
+    router.replace("/activity");
+    return null;
+  }
+
   function createRoom() {
     const code = generateRoomCode();
     router.push(`/${code}`);
