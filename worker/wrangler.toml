@@ -1,0 +1,13 @@
+name = "suitmatch-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[durable_objects]
+bindings = [
+  { name = "SUIT_ROOM", class_name = "SuitMatchRoom" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SuitMatchRoom"]
