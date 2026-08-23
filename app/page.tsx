@@ -3,16 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { generateRoomCode, isValidRoomCode, normalizeCode } from "@/lib/util/roomCode";
+import ActivityPage from "./activity/page";
 
 export default function Home() {
   const router = useRouter();
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
 
-  // Detect Discord iframe and redirect to Activity entry point
   if (typeof window !== "undefined" && window.self !== window.top) {
-    router.replace("/activity" + window.location.search);
-    return null;
+    return <ActivityPage />;
   }
 
   function createRoom() {
