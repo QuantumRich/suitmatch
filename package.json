@@ -10,6 +10,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@discord/embedded-app-sdk": "^2.5.0",
     "@vitest/coverage-v8": "^4.1.11",
     "culori": "^4.0.2",
     "next": "16.3.2",
