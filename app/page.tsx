@@ -11,7 +11,7 @@ export default function Home() {
 
   // Detect Discord iframe and redirect to Activity entry point
   if (typeof window !== "undefined" && window.self !== window.top) {
-    router.replace("/activity");
+    router.replace("/activity" + window.location.search);
     return null;
   }
 

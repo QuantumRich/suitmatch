@@ -21,11 +21,15 @@ export function getDiscordContext(): Promise<DiscordContext> {
 }
 
 async function init(): Promise<DiscordContext> {
+  console.log("[discord] init, search =", window.location.search);
   const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID;
+  console.log("[discord] clientId present:", !!clientId);
   if (!clientId) throw new Error("NEXT_PUBLIC_DISCORD_CLIENT_ID is not set");
 
   const sdk = new DiscordSDK(clientId);
+  console.log("[discord] SDK constructed, instanceId =", sdk.instanceId);
   await sdk.ready();
+  console.log("[discord] ready() resolved");
 
   // Patch URL mappings so WebSocket to Cloudflare Worker goes through Discord proxy
   const workerHost = (process.env.NEXT_PUBLIC_WORKER_URL ?? "")
