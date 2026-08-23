@@ -20,3 +20,7 @@ export function getDisplayName(): string | null {
 export function setDisplayName(name: string): void {
   localStorage.setItem("suitmatch_name", name.trim().slice(0, 30));
 }
+
+export function clearDisplayName(): void {
+  localStorage.removeItem("suitmatch_name");
+}

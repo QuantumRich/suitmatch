@@ -11,7 +11,7 @@ import LightingBadge from "@/components/LightingBadge";
 import { analyze } from "@/lib/color/pipeline";
 import { openRoom, type RoomHandle } from "@/lib/realtime/client";
 import type { Measurement, RoomState } from "@/lib/realtime/types";
-import { getUserId, getDisplayName } from "@/lib/util/storage";
+import { getUserId, getDisplayName, clearDisplayName } from "@/lib/util/storage";
 import { normalizeCode } from "@/lib/util/roomCode";
 import type { Rect } from "@/lib/color/extract";
 
@@ -73,6 +73,14 @@ export default function RoomPage() {
   function handleName(name: string) {
     setMyName(name);
     setStage("instructions");
+  }
+
+  function handleEditName() {
+    clearDisplayName();
+    roomRef.current?.close();
+    roomRef.current = null;
+    setMyName(null);
+    setStage("name-gate");
   }
 
   function handleCapture(file: File) {
@@ -164,7 +172,18 @@ export default function RoomPage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3 bg-zinc-900 border-b border-zinc-800 sticky top-0 z-10">
-        <span className="font-bold text-lg">SuitMatch</span>
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-lg">SuitMatch</span>
+          {myName && (
+            <button
+              onClick={handleEditName}
+              className="text-xs text-zinc-500 hover:text-zinc-300 transition"
+              title="Change name"
+            >
+              {myName} ✎
+            </button>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           <span className="font-mono text-sm bg-zinc-800 px-2 py-1 rounded tracking-widest">{code}</span>
           <div
