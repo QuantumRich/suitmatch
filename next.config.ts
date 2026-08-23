@@ -8,11 +8,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "frame-ancestors https://*.discord.com https://discord.com",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "ALLOW-FROM https://discord.com",
+            value: "frame-ancestors https://*.discord.com https://discord.com https://*.discordsays.com",
           },
         ],
       },
