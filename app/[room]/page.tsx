@@ -135,6 +135,31 @@ export default function RoomPage() {
   const myParticipant = roomState?.participants.find((p) => p.uid === myUid);
   const effectiveMeasurement = myParticipant?.measurement ?? measurement;
 
+  const soloInRoom = roomState && roomState.participants.length === 1 && roomState.participants[0].uid === myUid;
+
+  const groupPanel = myName && roomState ? (
+    <div className="px-4 pb-2 max-w-sm mx-auto w-full">
+      {soloInRoom && (
+        <div className="mb-3 bg-zinc-800 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+          <p className="text-zinc-300 text-sm">
+            Share <span className="font-mono font-bold text-white">{code}</span> to invite others
+          </p>
+          <button
+            onClick={() => navigator.clipboard.writeText(window.location.href)}
+            className="text-xs text-blue-400 hover:text-blue-300 underline shrink-0"
+          >
+            Copy link
+          </button>
+        </div>
+      )}
+      <GroupResults
+        room={roomState}
+        myUid={myUid}
+        onSetReference={handleSetReference}
+      />
+    </div>
+  ) : null;
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
@@ -151,23 +176,26 @@ export default function RoomPage() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pb-6">
         {stage === "name-gate" && <NameGate onDone={handleName} />}
 
         {stage === "instructions" && (
-          <div className="flex flex-col gap-6 px-4 py-6 max-w-sm mx-auto">
-            <div>
-              <h2 className="text-xl font-bold mb-3">Get a good reading</h2>
-              <ul className="text-zinc-300 space-y-2 text-base">
-                <li>• Show your full jacket</li>
-                <li>• Use normal or neutral lighting</li>
-                <li>• Avoid colored LED lights</li>
-                <li>• Don't use photo filters</li>
-                <li>• Keep the jacket reasonably flat</li>
-                <li>• Avoid strong shadows</li>
-              </ul>
+          <div className="flex flex-col gap-4 py-4 max-w-sm mx-auto">
+            {groupPanel}
+            <div className="px-4 flex flex-col gap-4">
+              <div>
+                <h2 className="text-xl font-bold mb-3">Get a good reading</h2>
+                <ul className="text-zinc-300 space-y-2 text-base">
+                  <li>• Show your full jacket</li>
+                  <li>• Use normal or neutral lighting</li>
+                  <li>• Avoid colored LED lights</li>
+                  <li>• Don't use photo filters</li>
+                  <li>• Keep the jacket reasonably flat</li>
+                  <li>• Avoid strong shadows</li>
+                </ul>
+              </div>
+              <CaptureButton onCapture={handleCapture} />
             </div>
-            <CaptureButton onCapture={handleCapture} />
           </div>
         )}
 
@@ -187,42 +215,35 @@ export default function RoomPage() {
         )}
 
         {stage === "analyzing" && (
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-zinc-400">Analyzing suit color…</p>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center justify-center py-16 gap-4">
+              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-zinc-400">Analyzing suit color…</p>
+            </div>
+            {groupPanel}
           </div>
         )}
 
         {stage === "result" && effectiveMeasurement && (
-          <div className="flex flex-col gap-4 px-4 py-6 max-w-sm mx-auto">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold">Your Suit</h2>
-              <LightingBadge quality={effectiveMeasurement.lightingQuality} />
+          <div className="flex flex-col gap-4 py-4 max-w-sm mx-auto">
+            <div className="px-4 flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold">Your Suit</h2>
+                <LightingBadge quality={effectiveMeasurement.lightingQuality} />
+              </div>
+              <ResultCard
+                measurement={effectiveMeasurement}
+                reference={referenceParticipant?.measurement ?? null}
+                referenceName={referenceParticipant?.name ?? null}
+              />
+              <button
+                onClick={handleRetake}
+                className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-3 rounded-xl text-sm transition"
+              >
+                Retake Photo
+              </button>
             </div>
-
-            <ResultCard
-              measurement={effectiveMeasurement}
-              reference={referenceParticipant?.measurement ?? null}
-              referenceName={referenceParticipant?.name ?? null}
-            />
-
-            <button
-              onClick={handleRetake}
-              className="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-3 rounded-xl text-sm transition mt-1"
-            >
-              Retake Photo
-            </button>
-          </div>
-        )}
-
-        {/* Group results — always show once in a room with participants */}
-        {myName && roomState && roomState.participants.length > 0 && (
-          <div className="px-4 pb-6 max-w-sm mx-auto">
-            <GroupResults
-              room={roomState}
-              myUid={myUid}
-              onSetReference={handleSetReference}
-            />
+            {groupPanel}
           </div>
         )}
       </main>
