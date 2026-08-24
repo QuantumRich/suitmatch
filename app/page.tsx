@@ -3,11 +3,16 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { generateRoomCode, isValidRoomCode, normalizeCode } from "@/lib/util/roomCode";
+import ActivityPage from "./activity/page";
 
 export default function Home() {
   const router = useRouter();
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
+
+  if (typeof window !== "undefined" && window.self !== window.top) {
+    return <ActivityPage />;
+  }
 
   function createRoom() {
     const code = generateRoomCode();
