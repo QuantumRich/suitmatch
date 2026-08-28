@@ -1,6 +1,5 @@
 import { converter, formatHex } from "culori";
 
-const toOklab = converter("oklch"); // not needed
 const toLab = converter("lab");
 const toRgb = converter("rgb");
 

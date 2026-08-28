@@ -38,6 +38,24 @@ describe("stats", () => {
     expect(stddev([])).toBe(0);
     expect(percentile([], 50)).toBe(0);
   });
+
+  it("percentile p=0 returns minimum, p=100 returns maximum", () => {
+    const arr = [3, 1, 4, 1, 5, 9];
+    expect(percentile(arr, 0)).toBe(1);
+    expect(percentile(arr, 100)).toBe(9);
+  });
+
+  it("stddev of single-element array is 0", () => {
+    expect(stddev([42])).toBe(0);
+  });
+
+  it("trimmedMean with high fraction falls back to middle element", () => {
+    const vals = [1, 2, 3];
+    // trimFraction=0.5 → cut=1 from each side → trimmed=[] → fallback to median element
+    const result = trimmedMean(vals, 0.5);
+    expect(typeof result).toBe("number");
+    expect(isNaN(result)).toBe(false);
+  });
 });
 
 // ─── Color space ─────────────────────────────────────────────────────────────
@@ -155,6 +173,29 @@ describe("score mapping", () => {
     const s2 = deltaEToScore(100);
     expect(s1).toBeLessThanOrEqual(100);
     expect(s2).toBeGreaterThanOrEqual(0);
+  });
+
+  it("deltaEToScore is monotone non-increasing over dense grid 0..30", () => {
+    const deltas = Array.from({ length: 121 }, (_, i) => i * 0.25);
+    const scores = deltas.map(deltaEToScore);
+    for (let i = 1; i < scores.length; i++) {
+      expect(scores[i]).toBeLessThanOrEqual(scores[i - 1]);
+    }
+  });
+
+  it("scoreToCategory boundary at 90 is excellent", () => {
+    expect(scoreToCategory(90)).toBe("excellent");
+    expect(scoreToCategory(89)).toBe("good");
+  });
+
+  it("scoreToCategory boundary at 80 is good", () => {
+    expect(scoreToCategory(80)).toBe("good");
+    expect(scoreToCategory(79)).toBe("borderline");
+  });
+
+  it("scoreToCategory boundary at 65 is borderline", () => {
+    expect(scoreToCategory(65)).toBe("borderline");
+    expect(scoreToCategory(64)).toBe("poor");
   });
 });
 

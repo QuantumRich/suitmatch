@@ -25,9 +25,11 @@ export function openRoom(
   let ws: WebSocket | null = new WebSocket(url);
   let alive = true;
   let pingInterval: ReturnType<typeof setInterval>;
+  const queue: ClientMsg[] = [];
 
   ws.onopen = () => {
     pingInterval = setInterval(() => send({ type: "ping" }), 20_000);
+    for (const msg of queue.splice(0)) ws?.send(JSON.stringify(msg));
   };
 
   ws.onmessage = (ev) => {
@@ -49,6 +51,8 @@ export function openRoom(
   function send(msg: ClientMsg) {
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(msg));
+    } else if (ws?.readyState === WebSocket.CONNECTING) {
+      queue.push(msg);
     }
   }
 

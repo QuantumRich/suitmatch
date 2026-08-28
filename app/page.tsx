@@ -67,10 +67,10 @@ export default function Home() {
                 value={joinCode}
                 onChange={(e) => {
                   setError("");
-                  setJoinCode(e.target.value.toUpperCase().slice(0, 6));
+                  setJoinCode(e.target.value.toUpperCase().slice(0, 4));
                 }}
                 onKeyDown={(e) => e.key === "Enter" && joinRoom()}
-                maxLength={6}
+                maxLength={4}
               />
               <button
                 onClick={joinRoom}

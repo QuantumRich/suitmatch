@@ -33,9 +33,9 @@ export function getSubRegions(rect: Rect): Array<{ label: string; rect: Rect }> 
 
   return [
     { label: "left-chest",    rect: { x, y: y + third * 0.2, width: hw * 0.9, height: third * 0.8 } },
-    { label: "right-chest",   rect: { x: x + hw * 0.5, y: y + third * 0.2, width: hw * 0.9, height: third * 0.8 } },
+    { label: "right-chest",   rect: { x: x + hw * 1.1, y: y + third * 0.2, width: hw * 0.9, height: third * 0.8 } },
     { label: "left-shoulder", rect: { x, y, width: hw * 0.9, height: third * 0.5 } },
-    { label: "right-shoulder",rect: { x: x + hw * 0.5, y, width: hw * 0.9, height: third * 0.5 } },
+    { label: "right-shoulder",rect: { x: x + hw * 1.1, y, width: hw * 0.9, height: third * 0.5 } },
     { label: "lower-jacket",  rect: { x, y: y + third * 1.7, width: w, height: third * 1.1 } },
   ];
 }
